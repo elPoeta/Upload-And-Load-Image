@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       
+        <script src="static/js/http.js" defer></script>
+        <script src="static/js/imagen.js" defer></script>
+    </head>
+    <body>
+        <h3>Upload Image</h3>
+        <form>
+            <input type="file" accept="image/*" id="selectFile" multiple="multiple" onchange="Imagen.select(this.files);">
+        </form>
+      
+        <div style = "height: 80px; width: 100px; border: 1px dashed black;" ondragenter="Imagen.enterImg(event);" ondragover="Imagen.overImg(event);" ondrop="Imagen.dropImg(event);">soltar aqui</div>
+          
+        <button onclick="Imagen.subir();">Subir Imagenes</button>
+        <button onclick="Imagen.traer();">Traer Imagenes</button>
+      
+        
+        <div id="panelU"></div>
+        <div id="panel"></div>
+    </body>
+</html>
