@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Imagen;
 
 /**
@@ -15,7 +16,8 @@ import model.Imagen;
 public class ImagenDao {
 
     private static ImagenDao INSTANCE = null;
-    private final static String SQL_IMAGENES_SELECT = "SELECT * FROM imagenes WHERE id = ?;";
+    private final static String SQL_IMAGENES_SELECT = "SELECT * FROM imagenes;";
+    //private final static String SQL_IMAGEN_SELECT = "SELECT * FROM imagenes WHERE id = ?;";
     private final static String SQL_IMAGEN_INSERT = "INSERT INTO imagenes (img)values(?);";
 
     private ImagenDao() throws ClassNotFoundException,
@@ -31,8 +33,46 @@ public class ImagenDao {
         return INSTANCE;
     }
 
+    public ArrayList<Imagen> obtenerImagenes() throws ClassNotFoundException, IOException, SQLException {
+        ArrayList<Imagen> imagenes = new ArrayList();
+        Connection conexion = null;
+        PreparedStatement ptsmt = null;
+        ResultSet rs = null;
+        try {
+            conexion = Conexion.getInstance().getConnection();
+            ptsmt = conexion.prepareStatement(SQL_IMAGENES_SELECT);
+            rs = ptsmt.executeQuery();
+            Imagen imagen = null;
+            while (rs.next()) {
+                try {
+                    imagen = new Imagen();
+                    imagen.setId(rs.getInt("id"));
+                    imagen.setImg(rs.getString("img"));
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                imagenes.add(imagen);
+            }
+        } finally {
+            try {
+                rs.close();
+            } finally {
+                try {
+                    ptsmt.close();
+                } finally {
+                    conexion.close();
+                }
+            }
+        }
+
+        return imagenes;
+    }
+
+    /*
+    
     public Imagen obtenerImagenes(Integer id) throws ClassNotFoundException, IOException, SQLException {
-        Imagen imagenes = null;
+        Imagen imagenes = new Imagen();
         Connection conexion = null;
         PreparedStatement ptsmt = null;
         ResultSet rs = null;
@@ -40,14 +80,14 @@ public class ImagenDao {
         try {
             conexion = Conexion.getInstance().getConnection();
             ptsmt = conexion.prepareStatement(SQL_IMAGENES_SELECT);
-            ptsmt.setInt(1, id);
+            //ptsmt.setInt(1, id);
             rs = ptsmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 try {
-                    imagenes = new Imagen();
+                    
                     imagenes.setId(rs.getInt("id"));
-                    imagenes.setImg(rs.getString("img"));
+                   // imagenes.setImg(rs.getString("img"));
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -68,8 +108,8 @@ public class ImagenDao {
 
         return imagenes;
     }
-
-    public static void insertar(Imagen img)
+     */
+    public static void insertar(ArrayList<String> img)
             throws ClassNotFoundException,
             IOException, SQLException {
         Connection c = null;
@@ -78,9 +118,13 @@ public class ImagenDao {
         try {
             c = Conexion.getInstance().getConnection();
             ptsmt = c.prepareStatement(SQL_IMAGEN_INSERT);
-            ptsmt.setString(1, img.getImg());
 
-            ptsmt.execute();
+            for (String imgBase64 : img) {
+                ptsmt.setString(1, imgBase64);
+
+                ptsmt.execute();
+            }
+
         } finally {
             try {
                 ptsmt.close();

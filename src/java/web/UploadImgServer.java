@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Imagen;
 import dao.ImagenDao;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
@@ -28,13 +29,13 @@ public class UploadImgServer extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            TreeMap parametro = CONVERTIR.fromJson(request.getParameter("q"), TreeMap.class);
-
-            Integer id = Integer.parseInt(String.valueOf(parametro.get("id")));
-
-            Imagen imagenes = ImagenDao.getInstance().obtenerImagenes(id);
+            //   TreeMap parametro = CONVERTIR.fromJson(request.getParameter("q"), TreeMap.class);
+            //     Integer id = Integer.parseInt(String.valueOf(parametro.get("id")));
+            //Imagen imagenes = ImagenDao.getInstance().obtenerImagenes(id);
+            ArrayList<Imagen> imagenes = ImagenDao.getInstance().obtenerImagenes();
 
             String resultado = CONVERTIR.toJson(imagenes);
+
             out.println("" + resultado);
 
         } catch (ClassNotFoundException ex) {
@@ -54,10 +55,10 @@ public class UploadImgServer extends HttpServlet {
         try {
             String texto = request.getReader().readLine();
 
-            Imagen ImgParametro = CONVERTIR.fromJson(texto, Imagen.class);
+            ArrayList<String> imagenes = CONVERTIR.fromJson(texto, ArrayList.class);
 
             ImagenDao.getInstance();
-            ImagenDao.insertar(ImgParametro);
+            ImagenDao.insertar(imagenes);
 
             out.println(CONVERTIR.toJson("OK"));
 

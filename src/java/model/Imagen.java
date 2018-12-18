@@ -5,6 +5,7 @@ package model;
  * @author elpoeta
  */
 public class Imagen {
+
     private Integer id;
     private String img;
 
@@ -29,8 +30,4 @@ public class Imagen {
         return "Imagen{" + "id=" + id + ", img=" + img + '}';
     }
 
-
-   
-        
-    
 }

@@ -3,39 +3,39 @@ class Imagen {
 
     static select(files) {
         Imagen.convertirImg(files);
-       
+
     }
-    
-    static enterImg(e){
+
+    static enterImg(e) {
         e.preventDefault();
     }
-    
-    static overImg(e){
+
+    static overImg(e) {
         e.preventDefault();
     }
-    
-    static dropImg(e){
+
+    static dropImg(e) {
         e.preventDefault();
         console.log(e.dataTransfer.files);
         Imagen.convertirImg(e.dataTransfer.files);
     }
-    
-    static convertirImg(files){
-         if (files && files.length < 6) {
 
-           
+    static convertirImg(files) {
+        if (files && files.length < 6 && archivos.length < 6) {
+
+
             let temp = '';
             for (let i = 0; i < files.length; i++) {
 
                 let fileReader = new FileReader();
 
-                if (files[i].type.match(/^image\//) && files[i].size > 1048576){
+                if (files[i].type.match(/^image\//) && files[i].size > 1048576) {
                     temp +=
-                        `<p id="fu-${i}">${files[i].name} el archivo tiene mas de 1MB</p>`;
+                            `<p id="fu-${i}">${files[i].name} el archivo tiene mas de 1MB</p>`;
                     document.querySelector('#panelU').innerHTML = temp;
-                 
+
                     continue;
-                    
+
                 }
                 fileReader.readAsDataURL(files[i]);
 
@@ -69,15 +69,19 @@ class Imagen {
     }
 
     static async traer() {
-        const url = 'UploadImgServer?&q=';
-        const param = {id: '' + 1};
-        const response = await Http.get(url + JSON.stringify(param));
-        const img = await JSON.parse(response.img);
-      
+        /*
+         const url = 'UploadImgServer?&q=';
+         const param = {id: '' + 1};
+         const response = await Http.get(url + JSON.stringify(param));
+         const img = await JSON.parse(response.img);
+         */
+
+        const url = 'UploadImgServer';
+        const response = await Http.get(url);
 
         let template =
-                `${img.map(i =>
-                        `<img src="${i}" style = width:100px alt="img"/>`
+                `${response.map(i =>
+                        `<img src="${i.img}" style = width:100px alt="img"/>`
                 ).join(' ')}`;
 
         document.querySelector('#panel').innerHTML = template;
@@ -87,8 +91,8 @@ class Imagen {
     static async subir() {
         if (archivos && archivos.length > 0) {
             const url = 'UploadImgServer';
-            const img = JSON.stringify(archivos);
-            const response = await Http.post(url, {img});
+            //const img = JSON.stringify(archivos);
+            const response = await Http.post(url, archivos);
             archivos = [];
             console.log(response);
 
