@@ -5,7 +5,7 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
+        <link rel="stylesheet" href="./static/css/estilos.css">
         <script src="static/js/http.js" defer></script>
         <script src="static/js/imagen.js" defer></script>
     </head>
@@ -13,6 +13,9 @@
         <h3>Upload Image</h3>
         <form>
             <input type="file" accept="image/*" id="selectFile" multiple="multiple" onchange="Imagen.select(this.files);">
+            <input type="range" id="maxHeight" name="maxHeight" min="50" max="800" value="50" step="50" onchange="Imagen.rango();"/>
+            <span id="valorRango">50</span>
+            <button id="redimensionar" onclick="Imagen.redimensionar(event);">Resize</button>
         </form>
       
         <div style = "height: 80px; width: 100px; border: 1px dashed black;" ondragenter="Imagen.enterImg(event);" ondragover="Imagen.overImg(event);" ondrop="Imagen.dropImg(event);">soltar aqui</div>
@@ -23,5 +26,6 @@
         
         <div id="panelU"></div>
         <div id="panel"></div>
+          <div class="spin"></div> 
     </body>
 </html>
