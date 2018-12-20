@@ -83,7 +83,7 @@ class Imagen {
 
     static redimensionar(e) {
         e.preventDefault();
-        if (archivos) {
+        if (archivos.length > 0) {
             const size = Imagen.rango();
             Imagen.resize(size);
 
