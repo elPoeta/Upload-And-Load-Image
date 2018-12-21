@@ -21,18 +21,18 @@ class Imagen {
     }
 
     static convertirImg(files) {
-        if (files && files.length < 6 && archivos.length < 6) {
-
+        if (files && files.length < 6 && archivos.length < 5) {
+;
 
             let temp = '';
             for (let i = 0; i < files.length; i++) {
 
                 let fileReader = new FileReader();
 
-                if (files[i].type.match(/^image\//)) 
-
+                if (!files[i].type.match(/^image\//)) 
+                { 
                     continue;
-
+                }
               
 
                 fileReader.readAsDataURL(files[i]);
@@ -58,9 +58,9 @@ class Imagen {
 
         } else {
             let template = '';
-            if (files.length > 5) {
-                template = `<p><strong>Solo 5 files, selectd: ${files.length}</strong></p>`;
-                console.log('no archivo');
+            if (files.length > 5 || archivos.length >= 5) {
+                template = `<p><strong>Solo 5 files</strong></p>`;
+                console.log('solo 5 archivos');
             } else if (files) {
                 template = `<p><strong>El archivo seleccionado no es una imagen, es de tipo: ${files[0].type}</strong></p>`;
                 console.log('no archivo');
