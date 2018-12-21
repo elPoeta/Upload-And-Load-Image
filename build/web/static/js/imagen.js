@@ -29,14 +29,11 @@ class Imagen {
 
                 let fileReader = new FileReader();
 
-                if (files[i].type.match(/^image\//) && files[i].size > 512000) {
-                    temp +=
-                            `<p id="fu-${i}">${files[i].name} el archivo tiene mas de 500Kb</p>`;
-                    document.querySelector('#panelU').innerHTML = temp;
+                if (files[i].type.match(/^image\//)) 
 
                     continue;
 
-                }
+              
 
                 fileReader.readAsDataURL(files[i]);
 
@@ -112,7 +109,7 @@ class Imagen {
                 canvas.width = width * escala;
 
                 canvas.getContext('2d').drawImage(image, 0, 0, width * escala, size);
-                enviarArchivos[i] = canvas.toDataURL();
+                enviarArchivos[i] = canvas.toDataURL('image/jpeg', .90);
 
                 document.querySelector(`#fu-${i}`).innerText = 'resized completed!!';
                 document.querySelector(".spin").classList.remove("spinner");
@@ -128,7 +125,7 @@ class Imagen {
          const response = await Http.get(url + JSON.stringify(param));
          const img = await JSON.parse(response.img);
          */
-        
+     
          const url = 'UploadImgServer';
          const response = await Http.get(url);
          
@@ -139,7 +136,7 @@ class Imagen {
          
          document.querySelector('#panel').innerHTML = template;
      
-
+  
     }
 
     static async subir() {
